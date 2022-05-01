@@ -1,0 +1,2 @@
+
+web: java -jar target/bolao-pinga-0.0.1-SNAPSHOT.jar
