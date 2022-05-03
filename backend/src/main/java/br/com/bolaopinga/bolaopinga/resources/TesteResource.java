@@ -14,6 +14,6 @@ public class TesteResource {
 	@GetMapping
 	public ResponseEntity<String> teste() {
 	
-		return ResponseEntity.ok("teste");
+		return ResponseEntity.ok("teste  s");
 	}
 }

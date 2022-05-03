@@ -1,0 +1,5 @@
+git subtree push --prefix backend origin dev-deploy &&
+git chckout dev-deploy &&
+git fetch -p &&
+git pull &&
+git push heroku master
