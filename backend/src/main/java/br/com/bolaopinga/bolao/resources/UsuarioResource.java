@@ -85,7 +85,7 @@ public class UsuarioResource extends BaseResource<Usuario> {
 		Response<UsuarioDto> response = new Response<UsuarioDto>();
 		
 		Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
-		if (optionalUsuario.isEmpty()) {
+		if (!optionalUsuario.isPresent()) {
 			response.getErrors().add("Não existe usuario com id informado");
 			return ResponseEntity.badRequest().body(response);
 		}
@@ -104,7 +104,7 @@ public class UsuarioResource extends BaseResource<Usuario> {
 		Response<UsuarioDto> response = new Response<UsuarioDto>();
 		
 		Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
-		if (optionalUsuario.isEmpty()) {
+		if (!optionalUsuario.isPresent()) {
 			response.getErrors().add("Não existe usuario com id informado");
 			return ResponseEntity.badRequest().body(response);
 		}
