@@ -27,11 +27,11 @@ public class BolaoApplication {
 		@Override
 		public void run(String...args) throws Exception {
 			
-			Usuario usuarioAdm = usuarioRepository.findByCelular(11968382928L);
+			Usuario usuarioAdm = usuarioRepository.findByCelular("11968382928");
 			if (usuarioAdm == null) {
 				Usuario usuario = new Usuario();
 				usuario.setNome("Eduardo Teixeira Monteiro");
-				usuario.setCelular(11968382928L);
+				usuario.setCelular("11968382928");
 				usuario.setPerfil(PerfilEnum.ROLE_ADMIN);
 				usuario.setSenha(SenhaUtils.gerarBCrypt("eduva000"));
 				usuario.setAtivo(true);

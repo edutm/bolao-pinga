@@ -6,5 +6,5 @@ import br.com.bolaopinga.bolao.entities.Usuario;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
-	public Usuario findByCelular(Long celular);
+	public Usuario findByCelular(String celular);
 }

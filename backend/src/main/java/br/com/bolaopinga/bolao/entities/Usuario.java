@@ -27,7 +27,7 @@ public class Usuario {
 	private String nome;
 	
 	@Column(name = "celular")
-	private Long celular;
+	private String celular;
 	
 	@Column(name = "senha")
 	private String senha;
@@ -43,7 +43,7 @@ public class Usuario {
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "perfil")
-	private PerfilEnum perfil;
+	private PerfilEnum perfil  = PerfilEnum.ROLE_USUARIO;
 
 	public String getNome() {
 		return nome;
@@ -53,11 +53,11 @@ public class Usuario {
 		this.nome = nome;
 	}
 
-	public Long getCelular() {
+	public String getCelular() {
 		return celular;
 	}
 
-	public void setCelular(Long celular) {
+	public void setCelular(String celular) {
 		this.celular = celular;
 	}
 

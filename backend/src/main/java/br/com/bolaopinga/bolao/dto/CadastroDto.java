@@ -10,8 +10,8 @@ public class CadastroDto implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@NotEmpty(message = "Campo nome não pode ser vazio.")
 	private String nome;
-	@NotNull(message = "Campo celular não pode ser vazio.")
-	private Long celular;
+	@NotEmpty(message = "Campo celular não pode ser vazio.")
+	private String celular;
 	@NotEmpty(message = "Campo senha não pode ser vazio.")
 	private String senha;
 	
@@ -21,10 +21,10 @@ public class CadastroDto implements Serializable {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public Long getCelular() {
+	public String getCelular() {
 		return celular;
 	}
-	public void setCelular(Long celular) {
+	public void setCelular(String celular) {
 		this.celular = celular;
 	}
 	public String getSenha() {
