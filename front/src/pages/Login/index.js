@@ -1,15 +1,18 @@
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { useNavigate  } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-function Login() {
+import { AuthContext } from '../../contexts/auth'
 
-  let navigate = useNavigate(); 
+function Login({ location }) {
 
+  const navigate = useNavigate(); 
+  const { setUser } = useContext(AuthContext);
+  console.log('login', window.location.pathname)
   return (
     <Container
         sx={{
@@ -34,7 +37,11 @@ function Login() {
         />
         <Button 
           variant="contained"
-          onClick={() => { navigate("/") }}
+          onClick={() => { 
+            setUser({token: "sdfsdfs", user: {id: 1}})
+            localStorage.setItem('user', JSON.stringify({token: "sdfsdfs", user: {id: 1}}));
+            navigate("/palpites"); 
+          }}
         >ENTRAR</Button>
 
       </Paper>

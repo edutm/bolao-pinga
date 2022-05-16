@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styled from '@emotion/styled';
 import AppBar from '@mui/material/AppBar';
 import Container from '@mui/material/Container';
@@ -12,6 +12,8 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { useNavigate  } from 'react-router-dom';
 
+import { AuthContext } from '../../contexts/auth'
+
 
 const DivGrow1 = styled.div`
   flex: 1;
@@ -23,14 +25,19 @@ const LogoContainer = styled.div`
 
 function Header() {
 
-  let navigate = useNavigate(); 
-
-  const [logged, setLogged] = useState(false);
+  const navigate = useNavigate(); 
+  const { user, setUser, logged } = useContext(AuthContext);
   const [anchorElNav, setAnchorElNav] = useState(null);
 
   const loginHandler = () => {
     handleCloseNavMenu();
-    setLogged(!logged);
+    navigate("login");
+  }
+
+  const logoutHandler = () => {
+    handleCloseNavMenu();
+    setUser(null);
+    localStorage.removeItem('user');
     navigate("login");
   }
 
@@ -106,12 +113,12 @@ function Header() {
               variant="outlined"
               color="inherit"
               sx={{display: {xs: 'none', md: 'flex'}}}
-              onClick={loginHandler}
+              onClick={logoutHandler}
             >
               Sair
             </Button>
           }
-          { !logged && 
+          { (!logged && window.location.pathname !== '/login')  && 
             <>
               <DivGrow1 />
               <Button 
@@ -151,7 +158,7 @@ function Header() {
               <MenuItem onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">CLASSIFICAÇÃO</Typography>
               </MenuItem>
-              <MenuItem onClick={loginHandler}>
+              <MenuItem onClick={logoutHandler}>
                 <Typography textAlign="center">SAIR</Typography>
               </MenuItem>
              
