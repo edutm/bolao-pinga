@@ -20,7 +20,6 @@ const AppRoutes  = () => {
   const Private = ({children}) => {
     //const { user } =  useContext(AuthContext);
     const user = localStorage.getItem("user");
-    console.log('user teste', user)
     if (!user) {
       return <Navigate to="/login" />
     }

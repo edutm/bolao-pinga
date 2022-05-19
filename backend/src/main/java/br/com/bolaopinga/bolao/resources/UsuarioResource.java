@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.bolaopinga.bolao.dto.CadastroDto;
 import br.com.bolaopinga.bolao.dto.UsuarioDto;
 import br.com.bolaopinga.bolao.entities.Usuario;
+import br.com.bolaopinga.bolao.repositories.EquipeRepository;
 import br.com.bolaopinga.bolao.repositories.UsuarioRepository;
-import br.com.bolaopinga.bolao.services.UsuarioService;
 import br.com.bolaopinga.bolao.util.Response;
 import br.com.bolaopinga.bolao.util.SenhaUtils;
 
@@ -34,7 +34,6 @@ public class UsuarioResource extends BaseResource<Usuario> {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-	
 	
 	@PostMapping("/cadastrar")
 	private ResponseEntity<?> criarUsuario(@Valid @RequestBody CadastroDto cadastroDto, 
@@ -64,6 +63,7 @@ public class UsuarioResource extends BaseResource<Usuario> {
 		
 		return ResponseEntity.ok(response);
 	}
+	
 	
 	@GetMapping("/lista")
 	private ResponseEntity<?> listarUsuario() {

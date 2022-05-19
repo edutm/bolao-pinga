@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +29,7 @@ import br.com.bolaopinga.bolao.util.Response;
 
 @RestController
 @RequestMapping("/api/login")
+@CrossOrigin(origins = "*")
 public class LoginResource extends BaseResource<TokenDto>{
 	
 	@Autowired
@@ -72,6 +74,7 @@ public class LoginResource extends BaseResource<TokenDto>{
 		
 		String token = jwtTokenUtil.obterToken(userDetails);
 		UsuarioDto usuarioDto = new UsuarioDto(usuario.getNome(), usuario.getCelular(), usuario.getPerfil().toString());
+		usuarioDto.setId(usuario.getId());
 		response.setData(new TokenDto(token, usuarioDto));
 		return ResponseEntity.ok(response);
 	}

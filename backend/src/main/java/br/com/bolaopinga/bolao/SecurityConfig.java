@@ -14,6 +14,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import br.com.bolaopinga.bolao.filters.JwtAuthenticationTokenFilter;
 import br.com.bolaopinga.bolao.security.JwtAuthenticationEntryPoint;
@@ -48,6 +51,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public JwtAuthenticationTokenFilter authenticationTokenFilterBean() throws Exception {
 		return new JwtAuthenticationTokenFilter();
 	}
+	
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/**")
+				.allowedOrigins("*")
+				.allowedMethods("GET", "PUT", "POST", "PATCH", "DELETE", "OPTIONS");
+			}
+		};
+	}
 
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
@@ -55,6 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 									authenticationEntryPoint(unauthorizedHandler).and()
 									.sessionManagement()
 									.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+									.and().cors()
 									.and().authorizeRequests()
 									.antMatchers("/api/login/**")
 									.permitAll().anyRequest().authenticated();
