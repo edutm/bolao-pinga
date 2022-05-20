@@ -26,7 +26,7 @@ const LogoContainer = styled.div`
 function Header() {
 
   const navigate = useNavigate(); 
-  const { user, setUser, logged } = useContext(AuthContext);
+  const { loginDto, setLoginDto, logged, senhaCadastrada } = useContext(AuthContext);
   const [anchorElNav, setAnchorElNav] = useState(null);
 
   const loginHandler = () => {
@@ -36,8 +36,8 @@ function Header() {
 
   const logoutHandler = () => {
     handleCloseNavMenu();
-    setUser(null);
-    localStorage.removeItem('user');
+    setLoginDto(null);
+    localStorage.removeItem('loginDto');
     navigate("login");
   }
 
@@ -74,27 +74,35 @@ function Header() {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar>
-          { logged &&
+          { logged && 
             <>
-              <Button 
-                color="inherit"
-                sx={{display: {xs: 'none', md: 'flex'}}}
-              >
-                Home
-              </Button>
-              <Button 
-                color="inherit"
-                sx={{display: {xs: 'none', md: 'flex'}}}
-              >
-                Palpites
-              </Button>
-              <Button 
-                color="inherit"
-                sx={{display: {xs: 'none', md: 'flex'}}}
-                onClick={classificacaoHandler}
-              >
-                Classificação
-              </Button>
+              {senhaCadastrada &&
+                <>
+                  <Button 
+                    color="inherit"
+                    sx={{display: {xs: 'none', md: 'flex'}}}
+                  >
+                    Home
+                  </Button>
+                  <Button 
+                    color="inherit"
+                    sx={{display: {xs: 'none', md: 'flex'}}}
+                  >
+                    Palpites
+                  </Button>
+                  <Button 
+                    color="inherit"
+                    sx={{display: {xs: 'none', md: 'flex'}}}
+                    onClick={classificacaoHandler}
+                  >
+                    Classificação
+                  </Button>
+                  
+                  <DivGrow1 />
+                </>
+              }
+             
+            
               <DivGrow1 />
               <IconButton
                   size="large"
@@ -106,8 +114,10 @@ function Header() {
               >
                 <MenuIcon />
               </IconButton>
+             
             </>
           }
+          { !senhaCadastrada && <DivGrow1 />}
           { logged && 
             <Button 
               variant="outlined"
@@ -148,16 +158,19 @@ function Header() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">HOME</Typography>
-              </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">PALPITES</Typography>
-              </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">CLASSIFICAÇÃO</Typography>
-              </MenuItem>
+            {senhaCadastrada &&
+              <>
+                <MenuItem onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">HOME</Typography>
+                </MenuItem>
+                <MenuItem onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">PALPITES</Typography>
+                </MenuItem>
+                <MenuItem onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">CLASSIFICAÇÃO</Typography>
+                </MenuItem>
+              </>
+            }
               <MenuItem onClick={logoutHandler}>
                 <Typography textAlign="center">SAIR</Typography>
               </MenuItem>

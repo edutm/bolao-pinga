@@ -21,6 +21,7 @@ public class UsuarioDto implements Serializable {
 	private String celular;
 	private String perfil;
 	private boolean ativo;
+	private boolean senhaCadastrada;
 	
 	public String getNome() {
 		return nome;
@@ -52,6 +53,12 @@ public class UsuarioDto implements Serializable {
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
 	}
+	public void setSenhaCadastrada(boolean senhaCadastrada) {
+		this.senhaCadastrada = senhaCadastrada;
+	}
+	public boolean isSenhaCadastrada() {
+		return senhaCadastrada;
+	}
 	
 	public static UsuarioDto parseToDto(Usuario usuario) {
 		UsuarioDto dto = new UsuarioDto();
@@ -60,6 +67,7 @@ public class UsuarioDto implements Serializable {
 		dto.setCelular(usuario.getCelular());
 		dto.setPerfil(usuario.getPerfil().toString());
 		dto.setAtivo(usuario.isAtivo());
+		dto.setSenhaCadastrada(usuario.isSenhaCadastrada());
 		return dto;
 	}
 

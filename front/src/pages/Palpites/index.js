@@ -14,7 +14,7 @@ function Palpites() {
   const [ isFetching , setIsFetching] = useState(false);
 
   useEffect(()=> {
-    api.get('usuario/lista')
+    /*api.get('usuario/lista')
       .then(response => {
         console.log("response", response);
       })
@@ -23,7 +23,7 @@ function Palpites() {
       })
       .finally(() => {
         setIsFetching(false);
-      });
+      });*/
   }, []);
  
   return (

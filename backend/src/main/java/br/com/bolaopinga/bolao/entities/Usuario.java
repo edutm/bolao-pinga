@@ -1,5 +1,6 @@
 package br.com.bolaopinga.bolao.entities;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,7 +21,7 @@ import br.com.bolaopinga.bolao.enuns.PerfilEnum;
 
 @Entity
 @Table(name = "usuario")
-public class Usuario {
+public class Usuario implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -48,6 +50,10 @@ public class Usuario {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "perfil")
 	private PerfilEnum perfil  = PerfilEnum.ROLE_USUARIO;
+	
+	
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<Palpite> palpites = new ArrayList<Palpite>();
 
 	public String getNome() {
 		return nome;
@@ -111,5 +117,11 @@ public class Usuario {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public List<Palpite> getPalpites() {
+		return palpites;
+	}
+	public void setPalpites(List<Palpite> palpites) {
+		this.palpites = palpites;
 	}
 }

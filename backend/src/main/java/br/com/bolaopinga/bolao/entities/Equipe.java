@@ -1,5 +1,7 @@
 package br.com.bolaopinga.bolao.entities;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -13,7 +15,7 @@ import br.com.bolaopinga.bolao.enuns.GrupoEnum;
 
 @Entity
 @Table(name = "equipe")
-public class Equipe {
+public class Equipe implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	

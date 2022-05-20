@@ -9,7 +9,7 @@ import br.com.bolaopinga.bolao.entities.Usuario;
 import br.com.bolaopinga.bolao.repositories.UsuarioRepository;
 
 @Component
-public class UserHelp {
+public class UserHelper {
 	
 	@Autowired UsuarioRepository usuarioRepository;
 	

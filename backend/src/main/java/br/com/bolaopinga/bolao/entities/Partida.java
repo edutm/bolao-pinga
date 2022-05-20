@@ -1,5 +1,6 @@
 package br.com.bolaopinga.bolao.entities;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -14,7 +15,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "partida")
-public class Partida {
+public class Partida implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -57,8 +58,8 @@ public class Partida {
 	@Column(name = "penalty_visitante")
 	public Long penaltyVisitante = 0L;
 	
-	@Column(name = "encerrado")
-	public boolean encerrado = false;
+	@Column(name = "encerrada")
+	public boolean encerrada = false;
 	
 	@Column(name = "numero")
 	public Long numero;
@@ -133,12 +134,12 @@ public class Partida {
 		this.penaltyVisitante = penaltyVisitante;
 	}
 
-	public boolean isEncerrado() {
-		return encerrado;
+	public boolean isEncerrada() {
+		return encerrada;
 	}
 
-	public void setEncerrado(boolean encerrado) {
-		this.encerrado = encerrado;
+	public void setEncerrado(boolean encerrada) {
+		this.encerrada = encerrada;
 	}
 
 	public Long getNumero() {

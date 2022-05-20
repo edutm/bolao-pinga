@@ -73,11 +73,9 @@ public class LoginResource extends BaseResource<TokenDto>{
 		UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationDto.getCelular());
 		
 		String token = jwtTokenUtil.obterToken(userDetails);
-		UsuarioDto usuarioDto = new UsuarioDto(usuario.getNome(), usuario.getCelular(), usuario.getPerfil().toString());
-		usuarioDto.setId(usuario.getId());
-		response.setData(new TokenDto(token, usuarioDto));
+		response.setData(new TokenDto(token, UsuarioDto.parseToDto(usuario)));
 		return ResponseEntity.ok(response);
 	}
-
+	
 
 }

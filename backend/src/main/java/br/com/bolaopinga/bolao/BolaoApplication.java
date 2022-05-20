@@ -10,12 +10,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Component;
 
 import br.com.bolaopinga.bolao.entities.Equipe;
+import br.com.bolaopinga.bolao.entities.Palpite;
 import br.com.bolaopinga.bolao.entities.Partida;
 import br.com.bolaopinga.bolao.entities.Partida.PartidaBuilder;
 import br.com.bolaopinga.bolao.entities.Usuario;
 import br.com.bolaopinga.bolao.enuns.GrupoEnum;
 import br.com.bolaopinga.bolao.enuns.PerfilEnum;
 import br.com.bolaopinga.bolao.repositories.EquipeRepository;
+import br.com.bolaopinga.bolao.repositories.PalpiteRepository;
 import br.com.bolaopinga.bolao.repositories.PartidaRepository;
 import br.com.bolaopinga.bolao.repositories.UsuarioRepository;
 import br.com.bolaopinga.bolao.util.SenhaUtils;
@@ -32,6 +34,9 @@ public class BolaoApplication {
 	@Autowired
 	private PartidaRepository partidaRepository;
 	
+	@Autowired
+	private PalpiteRepository palpiteRepository;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(BolaoApplication.class, args);
 	}
@@ -42,6 +47,7 @@ public class BolaoApplication {
 		@Override
 		public void run(String...args) throws Exception {
 			
+			criarEquipesEPartidas();
 			Usuario usuarioAdm = usuarioRepository.findByCelular("11968382928");
 			if (usuarioAdm == null) {
 				Usuario usuario = new Usuario();
@@ -52,9 +58,21 @@ public class BolaoApplication {
 				usuario.setAtivo(true);
 				usuario.setSenhaCadastrada(true);
 				usuarioRepository.save(usuario);
+				criarPalpitesUsuario(usuario);
 			}
 			
-			criarEquipesEPartidas();
+			
+		}
+		
+		private void criarPalpitesUsuario(Usuario usuario) {
+			List<Partida> partidas = partidaRepository.findAll();
+			partidas.forEach(partida -> {
+				Palpite palpite = new Palpite();
+				palpite.setPartida(partida);
+				palpite.setUsuario(usuario);
+				palpite.setUltimaAlteracao(LocalDateTime.now());
+				palpiteRepository.save(palpite);
+			});
 		}
 		
 		public void criarEquipesEPartidas() {

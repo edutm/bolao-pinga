@@ -11,6 +11,7 @@ import Home from "./pages/Home";
 import Palpites from "./pages/Palpites";
 import Login from "./pages/Login";
 import Classificacao from "./pages/Classificacao";
+import CadastrarSenha from "./pages/CadastrarSenha"
 
 import { AuthContext, AuthProvider } from './contexts/auth'
 
@@ -18,11 +19,16 @@ const AppRoutes  = () => {
 
   
   const Private = ({children}) => {
-    //const { user } =  useContext(AuthContext);
-    const user = localStorage.getItem("user");
-    if (!user) {
+    //const { loginDto } =  useContext(AuthContext);
+    const stringLoginDto = localStorage.getItem("loginDto");
+    if (!stringLoginDto) {
       return <Navigate to="/login" />
     }
+
+    const loginDto = JSON.parse(stringLoginDto);
+    if (!loginDto.usuario.senhaCadastrada && window.location.pathname !== '/cadastrar-senha') {
+      return <Navigate to="/cadastrar-senha" />
+    } 
    
     return children;
   }
@@ -36,6 +42,7 @@ const AppRoutes  = () => {
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/palpites" element={<Private><Palpites /></Private>} />
             <Route exact path="/classificacao" element={<Private><Classificacao /></Private>} />
+            <Route exact path="/cadastrar-senha" element={<Private><CadastrarSenha /></Private>} />
             <Route exact path="/" element={<Home />} />
           </Routes>
         </AuthProvider>

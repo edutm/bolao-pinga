@@ -6,51 +6,54 @@ import Snackbar from '@mui/material/Snackbar';
 import Button from '@mui/material/Button';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
+import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 
 import { api } from '../../services/service';
 import { AuthContext } from '../../contexts/auth'
 
-function Login({ location }) {
 
+function CadastrarSenha() {
   const navigate = useNavigate(); 
   const { setLoginDto } = useContext( AuthContext );
-  
-  const [celular, setCelular] = useState("");
-  const [senha, setSenha] = useState("");
+
   const [openAlert, setOpenAlert] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const [mensagem, setMensagem] = useState("");
 
-  useEffect(() => {
-    if (!localStorage.getItem('loginDto')) {
-      setLoginDto(null);
-    }
-  }, []);
+  const [senha, setSenha] = useState("");
+  const [confirmacaoSenha, setConfirmacaoSenha] = useState("");
 
-  const handleSubmit = (e) => {
+  const handlerActive = (e) => {
     e.preventDefault();
-    if (!celular || !senha) {
-      setOpenAlert(true);
-      setMensagem('Celular e Senha devem ser preenchidos.');
+    if (senha.length < 6) {
+      setMensagem("Senha muito curta mané.")
+      setOpenAlert(true)
       return;
     }
+
+    if (senha !== confirmacaoSenha) {
+      setMensagem("confirmação da senha esta diferente da senha mané.")
+      setOpenAlert(true)
+      return;
+    }
+
     setIsFetching(true);
-    api.post('login', {celular, senha})
+    api.put('usuario/cadastrar-senha', {senha, confirmacaoSenha})
       .then(response => {
-        const loginDto = response.data.data;
-        console.log('usuario', loginDto)
+        const loginDto = JSON.parse(localStorage.getItem('loginDto'));
+        loginDto.usuario = response.data.data;
         setLoginDto(loginDto);
         localStorage.setItem('loginDto', JSON.stringify(loginDto));
         navigate('/palpites');
 
       })
       .catch(err => {
-        console.log(err.response)
+        console.log(err.response.data.errors)
         if (err.response.data.errors) {
           setMensagem(err.response.data.errors.join('\r\n'));
         } else {
-          setMensagem("Usuario ou senha errados mané.");
+          setMensagem("Erro, tente novamente mais tarde.");
         }
         setOpenAlert(true);
       })
@@ -65,19 +68,16 @@ function Login({ location }) {
             height: "70vh",
             display: "flex",
             alignItems: "center",
-            justifyContent: "center"
+            justifyContent: "center",
+            flexDirection: "column"
+            
         }}
     >
-      <form action="" onSubmit={handleSubmit}>
+      <Typography sx={{fontSize: 30, paddingTop: 5}} variant="h1" component="div" gutterBottom>
+        Cadastrar Nova Senha
+      </Typography>
+      <form action="" onSubmit={handlerActive}>
         <Paper sx={{padding: 5, display: "flex", flexDirection: "column"}}>
-            <TextField 
-              id="celular" 
-              label="Celular"
-              type="number"
-              sx={{paddingBottom: 5}}
-              value={celular}
-              onChange={ (e) => setCelular(e.target.value) }
-            />
             <TextField 
               id="senha" 
               label="Senha" 
@@ -87,10 +87,19 @@ function Login({ location }) {
               value={senha}
               onChange={ (e) => setSenha(e.target.value) }
             />
+            <TextField 
+              id="confirmaSenha" 
+              label="Confirmar Senha" 
+              type="password"
+              autoComplete="current-password"
+              sx={{paddingBottom: 5}}
+              value={confirmacaoSenha}
+              onChange={ (e) => setConfirmacaoSenha(e.target.value) }
+            />
             <Button 
               variant="contained"
               type="submit"
-            >ENTRAR</Button>
+            >Cadastrar</Button>
         </Paper>
       </form>
       <Snackbar
@@ -109,4 +118,4 @@ function Login({ location }) {
   );
 }
 
-export default Login;
+export default CadastrarSenha;
