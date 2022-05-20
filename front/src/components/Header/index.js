@@ -72,50 +72,59 @@ function Header() {
       <Typography textAlign="center" color="#FFF" variant="h5">Bolão Pinga na Copa</Typography>
     </Box>
     <AppBar position="static">
-      <Container maxWidth="xl">
+      <Container  disableGutters>
         <Toolbar>
           { logged && 
-            <>
-              {senhaCadastrada &&
-                <>
-                  <Button 
-                    color="inherit"
-                    sx={{display: {xs: 'none', md: 'flex'}}}
-                  >
-                    Home
-                  </Button>
-                  <Button 
-                    color="inherit"
-                    sx={{display: {xs: 'none', md: 'flex'}}}
-                  >
-                    Palpites
-                  </Button>
-                  <Button 
-                    color="inherit"
-                    sx={{display: {xs: 'none', md: 'flex'}}}
-                    onClick={classificacaoHandler}
-                  >
-                    Classificação
-                  </Button>
-                  
-                  <DivGrow1 />
-                </>
-              }
-             
-            
-              <DivGrow1 />
-              <IconButton
-                  size="large"
-                  edge="start"
-                  color="inherit"
-                  aria-label="menu"
-                  onClick={handleOpenNavMenu}
-                  sx={{ mr: 2, display: {xs: 'flex', md: 'none'} }}
+            <Container disableGutters>
+              <Container disableGutters>
+                {senhaCadastrada &&
+                  <Container disableGutters sx={{display: 'flex', flexDirection: 'row'}}>
+                    <Button 
+                      color="inherit"
+                      sx={{display: {xs: 'none', md: 'flex'}}}
+                    >
+                      Home
+                    </Button>
+                    <Button 
+                      color="inherit"
+                      sx={{display: {xs: 'none', md: 'flex'}}}
+                    >
+                      Palpites
+                    </Button>
+                    <Button 
+                      color="inherit"
+                      sx={{display: {xs: 'none', md: 'flex'}}}
+                      onClick={classificacaoHandler}
+                    >
+                      Classificação
+                    </Button>
+                    
+                  </Container>
+                }
+              
+              
+              
+              </Container>
+              <Container
+                disableGutters 
+                sx={{ 
+                  display:"flex", 
+                  alignItems: "center", 
+                  justifyContent: "flex-end",
+                }}
               >
-                <MenuIcon />
-              </IconButton>
-             
-            </>
+                <IconButton
+                    size="large"
+                    edge="start"
+                    color="inherit"
+                    aria-label="menu"
+                    onClick={handleOpenNavMenu}
+                    sx={{ mr: 2, display: {xs: 'flex', md: 'none'} }}
+                >
+                  <MenuIcon />
+                </IconButton>
+              </Container>
+            </Container>
           }
           { !senhaCadastrada && <DivGrow1 />}
           { logged && 
@@ -129,8 +138,14 @@ function Header() {
             </Button>
           }
           { (!logged && window.location.pathname !== '/login')  && 
-            <>
-              <DivGrow1 />
+            <Container 
+              disableGutters
+              sx={{ 
+                display:"flex", 
+                alignItems: "center", 
+                justifyContent: "flex-end",
+              }}
+            >
               <Button 
                 variant="outlined"
                 color="inherit"
@@ -138,7 +153,7 @@ function Header() {
               >
                 entrar
               </Button>
-            </>
+            </Container>
           }
           <Menu
               id="menu-appbar"
@@ -159,7 +174,7 @@ function Header() {
               }}
             >
             {senhaCadastrada &&
-              <>
+              <Container disableGutters>
                 <MenuItem onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">HOME</Typography>
                 </MenuItem>
@@ -169,11 +184,13 @@ function Header() {
                 <MenuItem onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">CLASSIFICAÇÃO</Typography>
                 </MenuItem>
-              </>
+              </Container>
             }
+             <Container disableGutters>
               <MenuItem onClick={logoutHandler}>
                 <Typography textAlign="center">SAIR</Typography>
               </MenuItem>
+             </Container>
              
           </Menu>
         </Toolbar>
