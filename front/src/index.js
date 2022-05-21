@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import { CssBaseline } from '@mui/material';
 import App from './App';
 
+import './index.css';
+
 ReactDOM.render(
   <React.StrictMode>
     <CssBaseline />

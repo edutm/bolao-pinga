@@ -57,7 +57,7 @@ public class PalpiteDto implements Serializable {
 	
 	public static List<PalpiteDto> parseToDto(List<Palpite> listaPalpite) {
 		List<PalpiteDto> lista = new ArrayList<PalpiteDto>();
-		listaPalpite.forEach(p -> parseToDto(p));
+		listaPalpite.forEach(p -> lista.add(parseToDto(p)));
 		return lista;
 	}
 	
@@ -66,7 +66,7 @@ public class PalpiteDto implements Serializable {
 		dto.setId(palpite.getId());
 		dto.setUltimaAlteracao(palpite.getUltimaAlteracao());
 		dto.setPartida(PartidaDto.parseToDto(palpite.getPartida()));
-		dto.setUsuario(UsuarioDto.parseToDto(palpite.getUsuario()));
+		//dto.setUsuario(UsuarioDto.parseToDto(palpite.getUsuario()));
 		dto.setPlacarMandante(palpite.getPlacarMandante());
 		dto.setPlacarVisitante(palpite.getPlacarVisitante());
 		
