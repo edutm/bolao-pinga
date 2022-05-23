@@ -27,12 +27,67 @@ function Palpites() {
       })
       .catch(err=> {
         console.log("err", err);
+        console.log("err", err.response.status);
+        if (err.response?.status === 401) {
+          setMensagem("Precisa logar novamente mané!");
+          navigate('/login');
+        } else {
+          setMensagem("Erro! Tente denovo em alguns instantes.");
+          setOpenAlert(true);
+        }
       })
       .finally(() => {
         setIsFetching(false);
       });
   }, []);
  
+  const handlePlacarPalpite = (e, palpite) => {
+    e.preventDefault();
+
+    const newPalpites = [...palpites];
+    newPalpites.forEach((p) => {
+      const newPalpite = {...palpite};
+      if (p.id === newPalpite.id) {
+
+        if(e.target.id === 'placarMandante') {
+          newPalpite.placarMandante = e.target.value.substring(1,2);
+        } else {
+          newPalpite.placarVisitante = e.target.value.substring(1,2);
+        }
+
+        setIsFetching(true);
+        api.put('palpite', newPalpite)
+          .then(response => {
+            console.log("response", response)
+            p.placarMandante = newPalpite.placarMandante;
+            p.placarVisitante = newPalpite.placarVisitante;
+            setMensagem("Palpite salvo com sucesso!");
+            setOpenAlert(true);
+          })
+          .catch(err=> {
+            console.log("err", err);
+            console.log("err", err.response.status);
+            if (err.response?.status === 401) {
+              setMensagem("Precisa logar novamente mané!");
+              navigate('/login');
+            } else {
+              if (err.response.data.errors) {
+                setMensagem(err.response.data.errors.join('\r\n'));
+              } else {
+                setMensagem("Erro! Tente denovo em alguns instantes.");
+              }
+              setOpenAlert(true);
+            }
+          })
+          .finally(() => {
+            setIsFetching(false);
+          });
+      }
+    });
+    setPalpites(newPalpites);
+    
+  }
+
   return (
     <>
   
@@ -88,9 +143,23 @@ function Palpites() {
                       minWidth: 100
                     }}
                   >
-                    <TextField id="placarMandante" sx={{maxWidth: 40}} value={palpite.placarMandante} type="number"/>
+                    <TextField 
+                      id="placarMandante" 
+                      sx={{maxWidth: 40}} 
+                      value={palpite.placarMandante} 
+                      type="number"
+                      onChange={(e) => handlePlacarPalpite(e, palpite)}
+                      disabled={palpite.partida.encerrada}
+                    />
                     <Typography sx={{margin: 2}}>X</Typography>
-                    <TextField id="placarVisitante" sx={{maxWidth: 40}} value={palpite.placarVisitante} type="number"/>
+                    <TextField 
+                      id="placarVisitante" 
+                      sx={{maxWidth: 40}} 
+                      value={palpite.placarVisitante} 
+                      type="number"
+                      onChange={(e) => handlePlacarPalpite(e, palpite)}
+                      disabled={palpite.partida.encerrada}
+                    />
                   </Box>
                   <Box  
                     sx={{

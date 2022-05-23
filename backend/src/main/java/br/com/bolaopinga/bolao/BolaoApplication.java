@@ -94,7 +94,7 @@ public class BolaoApplication {
 				Equipe mexico = equipeRepository.save(new Equipe("México", "mexico", GrupoEnum.C));
 				Equipe polonia = equipeRepository.save(new Equipe("Polônia", "polonia", GrupoEnum.C));
 				
-				Equipe franca = equipeRepository.save(new Equipe("França", "catfrancar", GrupoEnum.D));
+				Equipe franca = equipeRepository.save(new Equipe("França", "franca", GrupoEnum.D));
 				Equipe peruEmiradosArabisAustralia = equipeRepository.save(new Equipe("Peru/Emirados Arabes/Australia", "bandeira", GrupoEnum.D));
 				Equipe dinamarca = equipeRepository.save(new Equipe("Dinamarca", "dinamarca", GrupoEnum.D));
 				Equipe tunisia = equipeRepository.save(new Equipe("Tunísia", "tunisia", GrupoEnum.D));

@@ -5,17 +5,28 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import br.com.bolaopinga.bolao.entities.Palpite;
 
 public class PalpiteDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@NotNull(message = "Campo id não pode ser vazio.")
 	private Long id;
+	
 	private LocalDateTime ultimaAlteracao;
+
 	private PartidaDto partida;
+	
 	private UsuarioDto usuario;
+	
+	@NotNull(message = "Campo placarMandante não pode ser vazio.")
 	private Long placarMandante;
+	
+	@NotNull(message = "Campo placarVisitante não pode ser vazio.")
 	private Long placarVisitante;
 	
 	public Long getId() {
