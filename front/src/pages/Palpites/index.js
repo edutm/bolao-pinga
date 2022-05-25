@@ -5,7 +5,7 @@ import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import Snackbar from '@mui/material/Snackbar';
 import { api } from "../../services/service";
-import { Avatar, Box, Card, CardContent, Container, Grid, Paper, TextField, Typography } from "@mui/material";
+import { Avatar, Box, Card, CardContent, Container, FormControl, getStepConnectorUtilityClass, Grid, InputLabel, MenuItem, Paper, Select, TextField, Typography } from "@mui/material";
 
 import moment from 'moment'; 
 
@@ -15,6 +15,7 @@ function Palpites() {
   const [ mensagem, setMensagem ] = useState("");
   const [ openAlert, setOpenAlert ] = useState(false);
   const [ isFetching , setIsFetching] = useState(false);
+  const [ filtro , setFiltro] = useState('TODOS');
 
   const [palpites, setPalpites] = useState([]);
 
@@ -85,14 +86,45 @@ function Palpites() {
       }
     });
     setPalpites(newPalpites);
-    
+  }
+
+  const getPontosColor = (palpite) => {
+    return palpite.pontos === 0 ? 'red' :
+            palpite.pontos === 3 ? '#cde55a' : 'green';
+  }
+
+  const handlerFiltro = (e) => {
+    console.log(e.target.value);
+    setFiltro(e.target.value);
   }
 
   return (
     <>
   
       <Container sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', padding: 3}}>
-    
+        <Box sx={{minWidth: 300}}>
+          <FormControl fullWidth>
+            <InputLabel id="filtro-label">FILTRO</InputLabel>
+            <Select
+              labelId="filtro-label"
+              id="filtro"
+              value={filtro}
+              label="FILTRO"
+              onChange={handlerFiltro}
+              defaultValue={filtro}
+            >
+              <MenuItem value={'TODOS'}>TODOS</MenuItem>
+              <MenuItem value={'JOGOS_DE_HOJE'}>JOGOS DE HOJE</MenuItem>
+              <MenuItem value={'JOGOS_DE_AMANHA'}>JOGOS DE AMANHÃ</MenuItem>
+              <MenuItem value={'FASE DE GRUPO'}>FASE DE GRUPO</MenuItem>
+              <MenuItem value={'OITAVAS_DE_FINAL'}>OITAVAS DE FINAL</MenuItem>
+              <MenuItem value={'QUARTAS_DE_FINAL'}>QUARTAS DE FINAL</MenuItem>
+              <MenuItem value={'SEMIFINAL'}>SEMIFINAL</MenuItem>
+              <MenuItem value={'TERCEIRO_LUGAR'}>TERCEIRO LUGAR</MenuItem>
+              <MenuItem value={'FINAL'}>FINAL</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
         <Typography variant="h2" component="div" >
           Palpites
         </Typography>
@@ -104,10 +136,44 @@ function Palpites() {
           }}
         >
           {palpites.map((palpite) => (
-            <Box key={palpite.id}>
-              <Paper  elevation={2} sx={{marginTop: 1, padding: 1, display: "flex", flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+            <Box 
+              key={palpite.id}
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <Paper 
+                sx={{
+                  background: 'black',
+                  minWidth: 200,
+                  minHeight: 20,
+                  marginTop: 2,
+                  padding: 0.3
+                }}
+              >
+                <Typography color={'white'} align="center">
+                  {palpite.partida.fase ===  'grupo' ?
+                    `Fase de Grupo - ${palpite.partida.rodada}ª rodada` : 
+                    palpite.partida.fase === 'oitavas' ?
+                    'Oitavas de Final' : 
+                    palpite.partida.fase === 'quartas' ?
+                    'Quartas de Final' :
+                    palpite.partida.fase === 'semi' ?
+                    'Semifinal' :
+                    palpite.partida.fase === 'terceiro' ?
+                    'Terceiro Lugar' :
+                    palpite.partida.fase === 'final' ?
+                    'Final' :
+                    palpite.partida.fase
+                  }
+                </Typography>
+              </Paper>
+              <Paper  elevation={2} sx={{padding: 1, display: "flex", flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
                 <Box>
-                  <Typography>
+                  <Typography sx={{fontWeight: 600}}>
                     {moment(palpite.partida.data).format('DD/MM [ - ] H:mm [hrs]')}
                   </Typography>
 
@@ -180,6 +246,34 @@ function Palpites() {
                     {palpite.partida.visitante?.nome || 'indefinido'}
                     </Typography>
                   </Box>
+                </Box>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                {palpite.partida.encerrada &&
+                  <>
+                    <Typography textAlign="center">
+                      Resultado da Partida
+                    </Typography>
+                    <Typography sx={{fontWeight: 600, display: 'flex', flexDirection: 'row', alignItems: 'center'}} textAlign="center">
+                      {(palpite.partida.penaltyMandante > 0 || palpite.partida.penaltyVisitante > 0) && 
+                        <Typography variant="caption">({palpite.partida.penaltyMandante})</Typography>
+                      }
+                        {palpite.partida.placarMandante} X {palpite.partida.placarVisitante}
+                      {(palpite.partida.penaltyMandante > 0 || palpite.partida.penaltyVisitante > 0) && 
+                        <Typography variant="caption">({palpite.partida.penaltyVisitante})</Typography>
+                      }
+                    </Typography>
+                    <Typography sx={{fontWeight: 600, color: getPontosColor(palpite)}} textAlign="center">
+                      {palpite.pontos} pontos
+                    </Typography>
+                  </>
+                }
                 </Box>
               </Paper>
             </Box>

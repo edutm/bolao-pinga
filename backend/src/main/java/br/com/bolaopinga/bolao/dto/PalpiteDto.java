@@ -9,6 +9,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import br.com.bolaopinga.bolao.entities.Palpite;
+import br.com.bolaopinga.bolao.entities.Partida;
 
 public class PalpiteDto implements Serializable {
 
@@ -28,6 +29,8 @@ public class PalpiteDto implements Serializable {
 	
 	@NotNull(message = "Campo placarVisitante não pode ser vazio.")
 	private Long placarVisitante;
+	
+	private Long pontos = 0L;
 	
 	public Long getId() {
 		return id;
@@ -65,6 +68,12 @@ public class PalpiteDto implements Serializable {
 	public void setPlacarVisitante(Long placarVisitante) {
 		this.placarVisitante = placarVisitante;
 	}
+	public Long getPontos() {
+		return pontos;
+	}
+	public void setPontos(Long pontos) {
+		this.pontos = pontos;
+	}
 	
 	public static List<PalpiteDto> parseToDto(List<Palpite> listaPalpite) {
 		List<PalpiteDto> lista = new ArrayList<PalpiteDto>();
@@ -80,8 +89,79 @@ public class PalpiteDto implements Serializable {
 		//dto.setUsuario(UsuarioDto.parseToDto(palpite.getUsuario()));
 		dto.setPlacarMandante(palpite.getPlacarMandante());
 		dto.setPlacarVisitante(palpite.getPlacarVisitante());
+		dto.setPontos(calcularPontos(palpite));
 		
 		return dto;
+	}
+	
+	public static Long calcularPontos(Palpite palpite) {
+		Long pontos = 0L;
+		
+		
+		Partida partida = palpite.getPartida();
+		if(partida.isEncerrada()) {
+			if(palpite.getPlacarMandante() == partida.getPlacarMandante()
+					&& palpite.getPlacarVisitante() == partida.getPlacarVisitante()) {
+				if("final".equals(partida.getFase())) {
+					pontos = 10L;
+				} else {
+					pontos = 5L;					
+				}
+			} else {
+				boolean isPalpiteVitoriaMandante = palpite.getPlacarMandante() > palpite.getPlacarVisitante();
+				boolean isPalpiteVitoriavisitante = palpite.getPlacarVisitante() > palpite.getPlacarMandante();
+				boolean isPalpiteEmpate = palpite.getPlacarVisitante() == palpite.getPlacarMandante();
+				if((partida.getPlacarMandante() > partida.getPlacarVisitante() && isPalpiteVitoriaMandante) ||
+						(partida.getPlacarVisitante() > partida.getPlacarMandante() && isPalpiteVitoriavisitante) ||
+							(partida.getPlacarVisitante() == partida.getPlacarMandante() && isPalpiteEmpate)) {
+					pontos = 3L;
+				}
+			}
+			/*if("grupo".equals(partida.getFase())) {
+				if(palpite.getPlacarMandante() == partida.getPlacarMandante()
+						&& palpite.getPlacarVisitante() == partida.getPlacarVisitante()) {
+					pontos = 5L;
+				} else {
+					boolean isPalpiteVitoriaMandante = palpite.getPlacarMandante() > palpite.getPlacarVisitante();
+					boolean isPalpiteVitoriavisitante = palpite.getPlacarVisitante() > palpite.getPlacarMandante();
+					boolean isPalpiteEmpate = palpite.getPlacarVisitante() == palpite.getPlacarMandante();
+					if((partida.getPlacarMandante() > partida.getPlacarVisitante() && isPalpiteVitoriaMandante) ||
+							(partida.getPlacarVisitante() > partida.getPlacarMandante() && isPalpiteVitoriavisitante) ||
+								(partida.getPlacarVisitante() == partida.getPlacarMandante() && isPalpiteEmpate)) {
+						pontos = 3L;
+					}
+				}
+				
+			} else {
+				if(palpite.getPlacarMandante() == partida.getPlacarMandante()
+						&& palpite.getPlacarVisitante() == partida.getPlacarVisitante()) {
+					if("final".equals(partida.getFase())) {
+						pontos = 10L;
+					} else {
+						pontos = 5L;					
+					}
+				} else {
+					boolean isPalpiteVitoriaMandante = palpite.getPlacarMandante() > palpite.getPlacarVisitante();
+					boolean isPalpiteVitoriavisitante = palpite.getPlacarVisitante() > palpite.getPlacarMandante();
+					boolean isPalpiteEmpate = palpite.getPlacarVisitante() == palpite.getPlacarMandante();
+					if(partida.getPlacarMandante() == partida.getPlacarVisitante()) {
+						if((partida.getPenaltyMandante() > partida.getPenaltyVisitante() && isPalpiteVitoriaMandante) ||
+								(partida.getPenaltyVisitante() > partida.getPenaltyMandante() && isPalpiteVitoriavisitante) ||
+									isPalpiteEmpate) {
+							pontos = 3L;
+						}
+					}
+					
+					if((partida.getPlacarMandante() > partida.getPlacarVisitante() && isPalpiteVitoriaMandante) ||
+							(partida.getPlacarVisitante() > partida.getPlacarMandante() && isPalpiteVitoriavisitante)) {
+						pontos = 3L;
+					}
+				}
+				
+			}*/
+		}
+		
+		return pontos;
 	}
 	
 }
