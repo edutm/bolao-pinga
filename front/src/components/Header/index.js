@@ -11,6 +11,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { useNavigate  } from 'react-router-dom';
+import { api } from "../../services/service";
 
 import { AuthContext } from '../../contexts/auth'
 
@@ -28,6 +29,7 @@ function Header() {
   const navigate = useNavigate(); 
   const { loginDto, setLoginDto, logged, senhaCadastrada } = useContext(AuthContext);
   const [anchorElNav, setAnchorElNav] = useState(null);
+  
 
   const loginHandler = () => {
     handleCloseNavMenu();
@@ -36,6 +38,7 @@ function Header() {
 
   const logoutHandler = () => {
     handleCloseNavMenu();
+    api.defaults.headers.Authorization = null;
     setLoginDto(null);
     localStorage.removeItem('loginDto');
     navigate("login");
@@ -43,6 +46,10 @@ function Header() {
 
   const classificacaoHandler = () => {
     navigate("classificacao")
+  }
+
+  const palpitesHandler = () => {
+    navigate("palpites")
   }
 
   const handleOpenNavMenu = (event) => {
@@ -88,6 +95,7 @@ function Header() {
                     <Button 
                       color="inherit"
                       sx={{display: {xs: 'none', md: 'flex'}}}
+                      onClick={palpitesHandler}
                     >
                       Palpites
                     </Button>

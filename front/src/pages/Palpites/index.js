@@ -17,9 +17,13 @@ function Palpites() {
   const [ isFetching , setIsFetching] = useState(false);
   const [ filtro , setFiltro] = useState('TODOS');
 
+  const { setLoginDto } = useContext( AuthContext );
+
   const [palpites, setPalpites] = useState([]);
 
   useEffect(()=> {
+    const loginDto = JSON.parse(localStorage.getItem('loginDto'));
+    api.defaults.headers.Authorization = `Bearer ${loginDto.token}`;
     getPalpites();
   }, []);
 
@@ -36,6 +40,9 @@ function Palpites() {
         console.log("err", err.response.status);
         if (err.response?.status === 401) {
           setMensagem("Precisa logar novamente mané!");
+          api.defaults.headers.Authorization = null;
+          setLoginDto(null);
+          localStorage.removeItem('loginDto');
           navigate('/login');
         } else {
           setMensagem("Erro! Tente denovo em alguns instantes.");
@@ -75,6 +82,9 @@ function Palpites() {
             console.log("err", err.response.status);
             if (err.response?.status === 401) {
               setMensagem("Precisa logar novamente mané!");
+              api.defaults.headers.Authorization = null;
+              setLoginDto(null);
+              localStorage.removeItem('loginDto');
               navigate('/login');
             } else {
               if (err.response.data.errors) {

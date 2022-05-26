@@ -40,6 +40,7 @@ function Login({ location }) {
       .then(response => {
         const loginDto = response.data.data;
         console.log('usuario', loginDto)
+        api.defaults.headers.Authorization = `Bearer ${loginDto.token}`;
         setLoginDto(loginDto);
         localStorage.setItem('loginDto', JSON.stringify(loginDto));
         navigate('/palpites');
