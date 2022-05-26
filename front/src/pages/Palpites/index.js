@@ -20,8 +20,13 @@ function Palpites() {
   const [palpites, setPalpites] = useState([]);
 
   useEffect(()=> {
+    getPalpites();
+  }, []);
+
+  const getPalpites = (filtroEscolhido) => {
     setIsFetching(true);
-    api.get('palpite')
+    filtroEscolhido = filtroEscolhido ? filtroEscolhido : "TODOS";
+    api.get('palpite', { params: { filtro: filtroEscolhido } })
       .then(response => {
         console.log("response", response.data.data);
         setPalpites(response.data.data);
@@ -40,7 +45,7 @@ function Palpites() {
       .finally(() => {
         setIsFetching(false);
       });
-  }, []);
+  }
  
   const handlePlacarPalpite = (e, palpite) => {
     e.preventDefault();
@@ -96,6 +101,7 @@ function Palpites() {
   const handlerFiltro = (e) => {
     console.log(e.target.value);
     setFiltro(e.target.value);
+    getPalpites(e.target.value);
   }
 
   return (
@@ -116,11 +122,11 @@ function Palpites() {
               <MenuItem value={'TODOS'}>TODOS</MenuItem>
               <MenuItem value={'JOGOS_DE_HOJE'}>JOGOS DE HOJE</MenuItem>
               <MenuItem value={'JOGOS_DE_AMANHA'}>JOGOS DE AMANHÃ</MenuItem>
-              <MenuItem value={'FASE DE GRUPO'}>FASE DE GRUPO</MenuItem>
-              <MenuItem value={'OITAVAS_DE_FINAL'}>OITAVAS DE FINAL</MenuItem>
-              <MenuItem value={'QUARTAS_DE_FINAL'}>QUARTAS DE FINAL</MenuItem>
-              <MenuItem value={'SEMIFINAL'}>SEMIFINAL</MenuItem>
-              <MenuItem value={'TERCEIRO_LUGAR'}>TERCEIRO LUGAR</MenuItem>
+              <MenuItem value={'GRUPO'}>FASE DE GRUPO</MenuItem>
+              <MenuItem value={'OITAVAS'}>OITAVAS DE FINAL</MenuItem>
+              <MenuItem value={'QUARTAS'}>QUARTAS DE FINAL</MenuItem>
+              <MenuItem value={'SEMI'}>SEMIFINAL</MenuItem>
+              <MenuItem value={'TERCEIRO'}>TERCEIRO LUGAR</MenuItem>
               <MenuItem value={'FINAL'}>FINAL</MenuItem>
             </Select>
           </FormControl>

@@ -1,9 +1,10 @@
 package br.com.bolaopinga.bolao.resources;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -17,9 +18,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.bolaopinga.bolao.dto.AuthenticationDto;
 import br.com.bolaopinga.bolao.dto.PalpiteDto;
 import br.com.bolaopinga.bolao.entities.Palpite;
 import br.com.bolaopinga.bolao.entities.Usuario;
@@ -39,12 +40,22 @@ public class PalpiteResource extends BaseResource<Palpite> {
 	private UserHelper userHelper;
 	
 	@GetMapping
-	private ResponseEntity<?> getLista() {
+	private ResponseEntity<?> getLista(@RequestParam(required = false, name = "filtro") String filtro) {
 		
 		Response<List<PalpiteDto>> response = new Response<List<PalpiteDto>>();
 		
 		Usuario usuario = userHelper.getUserLogged();
-		List<Palpite> palpites = palpiteRepository.findByUsuario(usuario);
+		List<Palpite> palpites = new ArrayList<>();
+				
+		if ("JOGOS_DE_AMANHA".equals(filtro)) {
+			palpites = palpiteRepository.findPalpitesByData(LocalDate.now().plusDays(1), usuario);
+		} else if ("JOGOS_DE_HOJE".equals(filtro)) {
+			palpites = palpiteRepository.findPalpitesByData(LocalDate.now(), usuario);
+		} else if ("TODOS".equals(filtro)){
+			palpites = palpiteRepository.findByUsuario(usuario);
+		} else {
+			palpites = palpiteRepository.findPalpitesByFase(filtro.toLowerCase(), usuario);
+		}
 		
 		response.setData(PalpiteDto.parseToDto(palpites.stream().sorted(Comparator.comparing(Palpite::getId)).collect(Collectors.toList())));
 		
