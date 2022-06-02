@@ -63,6 +63,7 @@ function Placares() {
         } else {
           setMensagem("Erro! Tente denovo em alguns instantes.");
           setOpenAlert(true);
+          
         }
       })
       .finally(() => {
