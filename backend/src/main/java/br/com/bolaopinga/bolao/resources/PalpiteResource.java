@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.bolaopinga.bolao.dto.PalpiteDto;
 import br.com.bolaopinga.bolao.entities.Palpite;
+import br.com.bolaopinga.bolao.entities.Partida;
 import br.com.bolaopinga.bolao.entities.Usuario;
 import br.com.bolaopinga.bolao.repositories.PalpiteRepository;
 import br.com.bolaopinga.bolao.security.UserHelper;
@@ -57,7 +58,14 @@ public class PalpiteResource extends BaseResource<Palpite> {
 			palpites = palpiteRepository.findPalpitesByFase(filtro.toLowerCase(), usuario);
 		}
 		
-		response.setData(PalpiteDto.parseToDto(palpites.stream().sorted(Comparator.comparing(Palpite::getId)).collect(Collectors.toList())));
+		Comparator<Palpite> comparator = new Comparator<Palpite>() {
+			@Override
+			public int compare(Palpite p1, Palpite p2) {	
+				return p1.getPartida().getData().compareTo(p2.getPartida().getData());
+			}
+		};
+		
+		response.setData(PalpiteDto.parseToDto(palpites.stream().sorted(comparator).collect(Collectors.toList())));
 		
 		return ResponseEntity.ok(response);
 	}

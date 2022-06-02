@@ -12,7 +12,6 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { useNavigate  } from 'react-router-dom';
 import { api } from "../../services/service";
-
 import { AuthContext } from '../../contexts/auth'
 
 
@@ -60,6 +59,17 @@ function Header() {
     setAnchorElNav(null);
   };
 
+  const regrasHandler = () => {
+  };
+
+  const usuariosHandler = () => {
+    navigate('usuarios');
+  }
+
+  const placaresHandler = () => {
+    navigate('placares');
+  }
+  
   return (
     <>
     <Box  
@@ -89,12 +99,6 @@ function Header() {
                     <Button 
                       color="inherit"
                       sx={{display: {xs: 'none', md: 'flex'}}}
-                    >
-                      Home
-                    </Button>
-                    <Button 
-                      color="inherit"
-                      sx={{display: {xs: 'none', md: 'flex'}}}
                       onClick={palpitesHandler}
                     >
                       Palpites
@@ -106,6 +110,31 @@ function Header() {
                     >
                       Classificação
                     </Button>
+                    <Button 
+                      color="inherit"
+                      sx={{display: {xs: 'none', md: 'flex'}}}
+                      onClick={regrasHandler}
+                    >
+                      Regras
+                    </Button>
+                    {loginDto.usuario.perfil === 'ROLE_ADMIN' && 
+                      <Button 
+                        color="inherit"
+                        sx={{display: {xs: 'none', md: 'flex'}}}
+                        onClick={usuariosHandler}
+                      >
+                        USUARIOS
+                      </Button>
+                    }
+                     {loginDto.usuario.perfil === 'ROLE_ADMIN' && 
+                      <Button 
+                        color="inherit"
+                        sx={{display: {xs: 'none', md: 'flex'}}}
+                        onClick={placaresHandler}
+                      >
+                        PLACARES
+                      </Button>
+                    }
                     
                   </Container>
                 }
@@ -184,14 +213,24 @@ function Header() {
             {senhaCadastrada &&
               <Container disableGutters>
                 <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">HOME</Typography>
-                </MenuItem>
-                <MenuItem onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">PALPITES</Typography>
                 </MenuItem>
                 <MenuItem onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">CLASSIFICAÇÃO</Typography>
                 </MenuItem>
+                <MenuItem onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">REGRAS</Typography>
+                </MenuItem>
+                {loginDto.usuario.perfil === 'ROLE_ADMIN' && 
+                  <MenuItem onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">USUARIOS</Typography>
+                  </MenuItem>
+                }
+                {loginDto.usuario.perfil === 'ROLE_ADMIN' && 
+                  <MenuItem onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">PLACARES</Typography>
+                  </MenuItem>
+                }
               </Container>
             }
              <Container disableGutters>

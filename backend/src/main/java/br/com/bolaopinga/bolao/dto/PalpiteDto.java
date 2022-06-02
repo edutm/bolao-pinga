@@ -89,16 +89,16 @@ public class PalpiteDto implements Serializable {
 		//dto.setUsuario(UsuarioDto.parseToDto(palpite.getUsuario()));
 		dto.setPlacarMandante(palpite.getPlacarMandante());
 		dto.setPlacarVisitante(palpite.getPlacarVisitante());
-		dto.setPontos(calcularPontos(palpite));
+		dto.setPontos(calcularPontos(dto));
 		
 		return dto;
 	}
 	
-	public static Long calcularPontos(Palpite palpite) {
+	public static Long calcularPontos(PalpiteDto palpite) {
 		Long pontos = 0L;
 		
 		
-		Partida partida = palpite.getPartida();
+		PartidaDto partida = palpite.getPartida();
 		if(partida.isEncerrada()) {
 			if(palpite.getPlacarMandante() == partida.getPlacarMandante()
 					&& palpite.getPlacarVisitante() == partida.getPlacarVisitante()) {

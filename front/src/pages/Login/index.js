@@ -25,6 +25,8 @@ function Login({ location }) {
   useEffect(() => {
     if (!localStorage.getItem('loginDto')) {
       setLoginDto(null);
+    } else {
+      navigate('/palpites');
     }
   }, []);
 

@@ -11,9 +11,11 @@ import Home from "./pages/Home";
 import Palpites from "./pages/Palpites";
 import Login from "./pages/Login";
 import Classificacao from "./pages/Classificacao";
-import CadastrarSenha from "./pages/CadastrarSenha"
+import CadastrarSenha from "./pages/CadastrarSenha";
+import Usuarios from "./pages/Usuarios";
 
-import { AuthContext, AuthProvider } from './contexts/auth'
+import { AuthContext, AuthProvider } from './contexts/auth';
+import Placares from "./pages/Placares";
 
 const AppRoutes  = () => {
 
@@ -41,9 +43,11 @@ const AppRoutes  = () => {
           <Routes>
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/palpites" element={<Private><Palpites /></Private>} />
+            <Route exact path="/placares" element={<Private><Placares /></Private>} />
+            <Route exact path="/usuarios" element={<Private><Usuarios /></Private>} />
             <Route exact path="/classificacao" element={<Private><Classificacao /></Private>} />
             <Route exact path="/cadastrar-senha" element={<Private><CadastrarSenha /></Private>} />
-            <Route exact path="/" element={<Home />} />
+            <Route exact path="/" element={<Login />} />
           </Routes>
         </AuthProvider>
       </Router>

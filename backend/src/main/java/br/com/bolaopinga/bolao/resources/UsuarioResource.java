@@ -58,12 +58,6 @@ public class UsuarioResource extends BaseResource<Usuario> {
 		
 		Response<UsuarioDto> response = new Response<UsuarioDto>();
 		
-		Usuario existUsuario = usuarioRepository.findByCelular(cadastroDto.getCelular());
-		if (existUsuario != null) {
-			result.addError(
-					new ObjectError("Cadastrar usuário", "Já existe um usuário cadastrado com este celular"));
-		}
-		
 		if(!PerfilEnum.ROLE_ADMIN.equals(userHelper.getUserLogged().getPerfil())) {
 			result.addError(
 					new ObjectError("Cadastrar usuário", "Usuario não é administrador."));
@@ -74,14 +68,42 @@ public class UsuarioResource extends BaseResource<Usuario> {
 			return ResponseEntity.badRequest().body(response);
 		}
 		
-		Usuario usuario = new Usuario();
-		usuario.setNome(cadastroDto.getNome());
-		usuario.setCelular(cadastroDto.getCelular());
-		usuario.setSenha(SenhaUtils.gerarBCrypt(cadastroDto.getSenha()));
-		usuarioRepository.save(usuario);
-		criarPalpitesUsuario(usuario);
+		if (cadastroDto.getId() == null) {
+			Usuario existUsuario = usuarioRepository.findByCelular(cadastroDto.getCelular());
+			
+			if (existUsuario != null) {
+				result.addError(
+						new ObjectError("Cadastrar usuário", "Já existe um usuário cadastrado com este celular"));
+				result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
+				return ResponseEntity.badRequest().body(response);
+			}
+			
+			Usuario usuario = new Usuario();
+			usuario.setNome(cadastroDto.getNome());
+			usuario.setCelular(cadastroDto.getCelular());
+			usuario.setSenha(SenhaUtils.gerarBCrypt("123456"));
+			usuarioRepository.save(usuario);
+			criarPalpitesUsuario(usuario);			
+			response.setData(UsuarioDto.parseToDto(usuario));
+		} else {
+			Optional<Usuario> optional = usuarioRepository.findById(cadastroDto.getId());
+			if (!optional.isPresent()) {
+				result.addError(
+							new ObjectError("Editar usuário", "Usuario não existe."));
+				
+				result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
+				return ResponseEntity.badRequest().body(response);
+			}
+			
+			Usuario usuario = optional.get();
+			usuario.setNome(cadastroDto.getNome());
+			usuario.setCelular(cadastroDto.getCelular());
+			usuario.setSenhaCadastrada(cadastroDto.isSenhaCadastrada());
+			usuario.setAtivo(cadastroDto.isAtivo());
+			usuarioRepository.save(usuario);		
+			response.setData(UsuarioDto.parseToDto(usuario));
+		}
 		
-		response.setData(UsuarioDto.parseToDto(usuario));
 		
 		return ResponseEntity.ok(response);
 	}
@@ -106,7 +128,7 @@ public class UsuarioResource extends BaseResource<Usuario> {
 		Response<List<UsuarioDto>> response = new Response<List<UsuarioDto>>();
 		List<UsuarioDto> usuariosDto = new ArrayList<UsuarioDto>();
 		
-		usuarios.forEach(u -> usuariosDto.add(UsuarioDto.parseToDto(u)));
+		usuarios.stream().filter(u -> u.getPerfil().equals(PerfilEnum.ROLE_USUARIO)).forEach(u -> usuariosDto.add(UsuarioDto.parseToDto(u)));
 		
 		response.setData(usuariosDto);
 		return ResponseEntity.ok(response);
@@ -183,11 +205,5 @@ public class UsuarioResource extends BaseResource<Usuario> {
 		
 		response.setData(UsuarioDto.parseToDto(usuario));
 		return ResponseEntity.ok(response);
-	}
-	
-	@GetMapping("/partidas")
-	private ResponseEntity<?> testePartidas() {	
-		List<Partida> partidas = partidaRepository.findAll();
-		return ResponseEntity.ok(PartidaDto.parseToDto(partidas));
 	}
 }
