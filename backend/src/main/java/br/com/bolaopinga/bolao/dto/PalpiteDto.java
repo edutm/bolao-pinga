@@ -117,48 +117,6 @@ public class PalpiteDto implements Serializable {
 					pontos = 3L;
 				}
 			}
-			/*if("grupo".equals(partida.getFase())) {
-				if(palpite.getPlacarMandante() == partida.getPlacarMandante()
-						&& palpite.getPlacarVisitante() == partida.getPlacarVisitante()) {
-					pontos = 5L;
-				} else {
-					boolean isPalpiteVitoriaMandante = palpite.getPlacarMandante() > palpite.getPlacarVisitante();
-					boolean isPalpiteVitoriavisitante = palpite.getPlacarVisitante() > palpite.getPlacarMandante();
-					boolean isPalpiteEmpate = palpite.getPlacarVisitante() == palpite.getPlacarMandante();
-					if((partida.getPlacarMandante() > partida.getPlacarVisitante() && isPalpiteVitoriaMandante) ||
-							(partida.getPlacarVisitante() > partida.getPlacarMandante() && isPalpiteVitoriavisitante) ||
-								(partida.getPlacarVisitante() == partida.getPlacarMandante() && isPalpiteEmpate)) {
-						pontos = 3L;
-					}
-				}
-				
-			} else {
-				if(palpite.getPlacarMandante() == partida.getPlacarMandante()
-						&& palpite.getPlacarVisitante() == partida.getPlacarVisitante()) {
-					if("final".equals(partida.getFase())) {
-						pontos = 10L;
-					} else {
-						pontos = 5L;					
-					}
-				} else {
-					boolean isPalpiteVitoriaMandante = palpite.getPlacarMandante() > palpite.getPlacarVisitante();
-					boolean isPalpiteVitoriavisitante = palpite.getPlacarVisitante() > palpite.getPlacarMandante();
-					boolean isPalpiteEmpate = palpite.getPlacarVisitante() == palpite.getPlacarMandante();
-					if(partida.getPlacarMandante() == partida.getPlacarVisitante()) {
-						if((partida.getPenaltyMandante() > partida.getPenaltyVisitante() && isPalpiteVitoriaMandante) ||
-								(partida.getPenaltyVisitante() > partida.getPenaltyMandante() && isPalpiteVitoriavisitante) ||
-									isPalpiteEmpate) {
-							pontos = 3L;
-						}
-					}
-					
-					if((partida.getPlacarMandante() > partida.getPlacarVisitante() && isPalpiteVitoriaMandante) ||
-							(partida.getPlacarVisitante() > partida.getPlacarMandante() && isPalpiteVitoriavisitante)) {
-						pontos = 3L;
-					}
-				}
-				
-			}*/
 		}
 		
 		return pontos;

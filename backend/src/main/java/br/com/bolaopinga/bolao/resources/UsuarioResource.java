@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.bolaopinga.bolao.dto.CadastrarSenhaDto;
 import br.com.bolaopinga.bolao.dto.CadastroDto;
+import br.com.bolaopinga.bolao.dto.PalpiteDto;
 import br.com.bolaopinga.bolao.dto.PartidaDto;
 import br.com.bolaopinga.bolao.dto.UsuarioDto;
 import br.com.bolaopinga.bolao.entities.Palpite;
@@ -129,6 +130,27 @@ public class UsuarioResource extends BaseResource<Usuario> {
 		List<UsuarioDto> usuariosDto = new ArrayList<UsuarioDto>();
 		
 		usuarios.stream().filter(u -> u.getPerfil().equals(PerfilEnum.ROLE_USUARIO)).forEach(u -> usuariosDto.add(UsuarioDto.parseToDto(u)));
+		
+		response.setData(usuariosDto);
+		return ResponseEntity.ok(response);
+	}
+	
+	@GetMapping("/classificacao")
+	private ResponseEntity<?> getClassificacao() {
+		
+		List<Usuario> usuarios = usuarioRepository.findAll();
+		
+		Response<List<UsuarioDto>> response = new Response<List<UsuarioDto>>();
+		List<UsuarioDto> usuariosDto = new ArrayList<UsuarioDto>();
+		
+		usuarios.forEach(u -> {
+			List<Palpite> palpites = u.getPalpites();
+			List<PalpiteDto> palpitesDto = PalpiteDto.parseToDto(palpites);
+			Long pontos = palpitesDto.stream().mapToLong(p -> p.getPontos()).sum();
+			UsuarioDto dto = UsuarioDto.parseToDto(u);
+			dto.setPontos(pontos);
+			usuariosDto.add(dto);
+		});
 		
 		response.setData(usuariosDto);
 		return ResponseEntity.ok(response);

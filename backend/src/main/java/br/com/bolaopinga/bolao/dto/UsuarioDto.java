@@ -22,6 +22,7 @@ public class UsuarioDto implements Serializable {
 	private String perfil;
 	private boolean ativo;
 	private boolean senhaCadastrada;
+	private Long pontos;
 	
 	public String getNome() {
 		return nome;
@@ -58,6 +59,12 @@ public class UsuarioDto implements Serializable {
 	}
 	public boolean isSenhaCadastrada() {
 		return senhaCadastrada;
+	}
+	public Long getPontos() {
+		return pontos;
+	}
+	public void setPontos(Long pontos) {
+		this.pontos = pontos;
 	}
 	
 	public static UsuarioDto parseToDto(Usuario usuario) {

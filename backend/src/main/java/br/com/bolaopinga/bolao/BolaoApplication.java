@@ -87,7 +87,7 @@ public class BolaoApplication {
 				Equipe inglaterra = equipeRepository.save(new Equipe("Inglaterra", "inglaterra", GrupoEnum.B));
 				Equipe ira = equipeRepository.save(new Equipe("Irã", "ira", GrupoEnum.B));
 				Equipe estadosUnidos = equipeRepository.save(new Equipe("Estados Unidos", "estados_unidos", GrupoEnum.B));
-				Equipe galesEscociaUcrania = equipeRepository.save(new Equipe("Gales/Escocia/Ucrânia", "bandeira", GrupoEnum.B));
+				Equipe galesEscociaUcrania = equipeRepository.save(new Equipe("Gales", "gales", GrupoEnum.B));
 				
 				Equipe argentina = equipeRepository.save(new Equipe("Argentina", "argentina", GrupoEnum.C));
 				Equipe arabiaSaudita = equipeRepository.save(new Equipe("Arábia Saudita", "arabia_saudita", GrupoEnum.C));
@@ -95,12 +95,12 @@ public class BolaoApplication {
 				Equipe polonia = equipeRepository.save(new Equipe("Polônia", "polonia", GrupoEnum.C));
 				
 				Equipe franca = equipeRepository.save(new Equipe("França", "franca", GrupoEnum.D));
-				Equipe peruEmiradosArabisAustralia = equipeRepository.save(new Equipe("Peru/Emirados Arabes/Australia", "bandeira", GrupoEnum.D));
+				Equipe peruEmiradosArabisAustralia = equipeRepository.save(new Equipe("Australia", "australia", GrupoEnum.D));
 				Equipe dinamarca = equipeRepository.save(new Equipe("Dinamarca", "dinamarca", GrupoEnum.D));
 				Equipe tunisia = equipeRepository.save(new Equipe("Tunísia", "tunisia", GrupoEnum.D));
 				
 				Equipe espanha = equipeRepository.save(new Equipe("Espanha", "espanha", GrupoEnum.E));
-				Equipe costaRicaNovaZelandia = equipeRepository.save(new Equipe("Costa Rica/Nova Zelandia", "bandeira", GrupoEnum.E));
+				Equipe costaRicaNovaZelandia = equipeRepository.save(new Equipe("Costa Rica", "costa_rica", GrupoEnum.E));
 				Equipe alemanha = equipeRepository.save(new Equipe("Alemanha", "alemanha", GrupoEnum.E));
 				Equipe japao = equipeRepository.save(new Equipe("Japão", "japao", GrupoEnum.E));
 				
