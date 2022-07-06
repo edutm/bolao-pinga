@@ -2,6 +2,7 @@ package br.com.bolaopinga.bolao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import br.com.bolaopinga.bolao.filters.JwtAuthenticationTokenFilter;
 import br.com.bolaopinga.bolao.security.JwtAuthenticationEntryPoint;
 
+@Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -53,16 +55,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**")
-				.allowedOrigins("*")
-				.allowedMethods("GET", "PUT", "POST", "PATCH", "DELETE", "OPTIONS");
-			}
-		};
-	}
+    public CorsFilter corsFilter() {
+        CorsFilter filter = new CorsFilter();
+        return filter;
+    }
 
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
@@ -70,7 +66,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 									authenticationEntryPoint(unauthorizedHandler).and()
 									.sessionManagement()
 									.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-									.and().cors()
 									.and().authorizeRequests()
 									.antMatchers("/api/login/**")
 									.permitAll().anyRequest().authenticated();
