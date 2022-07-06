@@ -54,11 +54,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new JwtAuthenticationTokenFilter();
 	}
 	
-	@Bean
+	/*@Bean
     public CorsFilter corsFilter() {
         CorsFilter filter = new CorsFilter();
         return filter;
-    }
+    }*/
 
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
