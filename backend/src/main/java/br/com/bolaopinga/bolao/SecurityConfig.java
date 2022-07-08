@@ -2,7 +2,6 @@ package br.com.bolaopinga.bolao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,14 +14,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import br.com.bolaopinga.bolao.filters.JwtAuthenticationTokenFilter;
 import br.com.bolaopinga.bolao.security.JwtAuthenticationEntryPoint;
 
-@Configuration
+
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -54,11 +50,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new JwtAuthenticationTokenFilter();
 	}
 	
-	/*@Bean
-    public CorsFilter corsFilter() {
-        CorsFilter filter = new CorsFilter();
-        return filter;
-    }*/
 
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
