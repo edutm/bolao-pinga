@@ -28,7 +28,7 @@ import br.com.bolaopinga.bolao.security.JwtTokenUtil;
 import br.com.bolaopinga.bolao.util.Response;
 
 @RestController
-@RequestMapping("/api/login")
+@RequestMapping("api/login")
 @CrossOrigin(origins = "*")
 public class LoginResource extends BaseResource<TokenDto>{
 	
