@@ -5,10 +5,9 @@ import axios from 'axios';
 const api = axios.create({
   ///baseURL: 'http://localhost:8080/api/',
   //baseURL: 'http://192.168.15.41:8080/api/',
-  baseURL: 'https://bolao-pinga-dev.herokuapp.com/api/',
+  baseURL: 'https://bolao-pinga-backend-dev.herokuapp.com/',
   headers: {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*'
     //Authorization : loginDto ? `Bearer ${loginDto.token}` : ''
   }
 });
