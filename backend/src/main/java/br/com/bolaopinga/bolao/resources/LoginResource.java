@@ -29,7 +29,7 @@ import br.com.bolaopinga.bolao.util.Response;
 
 @RestController
 @RequestMapping("api/login")
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 public class LoginResource extends BaseResource<TokenDto>{
 	
 	@Autowired
