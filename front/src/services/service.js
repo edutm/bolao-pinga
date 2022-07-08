@@ -8,6 +8,7 @@ const api = axios.create({
   baseURL: 'https://bolao-pinga-dev.herokuapp.com/api/',
   headers: {
     'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*'
     //Authorization : loginDto ? `Bearer ${loginDto.token}` : ''
   }
 });
