@@ -149,6 +149,8 @@ function Palpites() {
             display: 'flex', 
             flexDirection: 'column', 
             alignItems: 'center',
+            justifyContent: 'center',
+            width: "100%"
           }}
         >
           {palpites.map((palpite) => (
@@ -158,16 +160,16 @@ function Palpites() {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                justifyContent: 'center'
+                justifyContent: 'center',
+                width: '100%'
               }}
             >
               <Paper 
                 sx={{
                   background: 'black',
-                  minWidth: 200,
                   minHeight: 20,
                   marginTop: 2,
-                  padding: 0.3
+                  padding: 0.3,
                 }}
               >
                 <Typography color={'white'} align="center">
@@ -187,7 +189,16 @@ function Palpites() {
                   }
                 </Typography>
               </Paper>
-              <Paper  elevation={2} sx={{padding: 1, display: "flex", flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+              <Paper  
+                elevation={2} 
+                sx={{
+                  padding: 1, 
+                  display: "flex", 
+                  flexDirection: 'column', 
+                  alignItems: 'center', 
+                  justifyContent: 'center',
+                }}
+              >
                 <Box>
                   <Typography sx={{fontWeight: 600}}>
                     {moment(palpite.partida.data).format('DD/MM [ - ] H:mm [hrs]')}
@@ -227,7 +238,7 @@ function Palpites() {
                   >
                     <TextField 
                       id="placarMandante" 
-                      sx={{maxWidth: 40}} 
+                      sx={{maxWidth: 40, minWidth: 40}} 
                       value={palpite.placarMandante} 
                       type="number"
                       onChange={(e) => handlePlacarPalpite(e, palpite)}
@@ -236,7 +247,7 @@ function Palpites() {
                     <Typography sx={{margin: 2}}>X</Typography>
                     <TextField 
                       id="placarVisitante" 
-                      sx={{maxWidth: 40}} 
+                      sx={{maxWidth: 40, minWidth: 40}} 
                       value={palpite.placarVisitante} 
                       type="number"
                       onChange={(e) => handlePlacarPalpite(e, palpite)}

@@ -3,7 +3,7 @@ import axios from 'axios';
 
 //const loginDto = JSON.parse(localStorage.getItem('loginDto'));
 const api = axios.create({
-  ///baseURL: 'http://localhost:8080/api/',
+  //baseURL: 'http://localhost:8080/api/',
   //baseURL: 'http://192.168.15.41:8080/api/',
   baseURL: 'https://bolao-pinga-backend-dev.herokuapp.com/api/',
   headers: {

@@ -319,7 +319,7 @@ function Placares() {
             <Typography>{partida?.mandante?.nome} </Typography>
             <TextField 
               id="placarMandante" 
-              sx={{maxWidth: 40}} 
+              sx={{maxWidth: 40, minWidth: 40}} 
               value={partida.placarMandante} 
               type="number"
               onChange={(e) => handlePlacarPartida(e)}
@@ -328,7 +328,7 @@ function Placares() {
             <Typography sx={{margin: 2}}>X</Typography>
             <TextField 
               id="placarVisitante" 
-              sx={{maxWidth: 40}} 
+              sx={{maxWidth: 40, minWidth: 40}} 
               value={partida.placarVisitante} 
               type="number"
               onChange={(e) => handlePlacarPartida(e)}
@@ -347,7 +347,7 @@ function Placares() {
           >
             <TextField 
               id="penaltyMandante" 
-              sx={{width: 40}} 
+              sx={{width: 40, minWidth: 40}} 
               value={partida.penaltyMandante} 
               type="number"
               onChange={(e) => handlePenaltyPartida(e)}
@@ -356,7 +356,7 @@ function Placares() {
             <Typography sx={{margin: 2}}>X</Typography>
             <TextField 
               id="penaltyVisitante" 
-              sx={{width: 40}} 
+              sx={{width: 40, minWidth: 40}} 
               value={partida.penaltyVisitante} 
               type="number"
               onChange={(e) => handlePenaltyPartida(e)}
