@@ -1,8 +1,5 @@
 package br.com.bolaopinga.bolao;
 
-import java.util.Arrays;
-import java.util.Collections;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
@@ -18,8 +15,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import br.com.bolaopinga.bolao.filters.JwtAuthenticationTokenFilter;
 import br.com.bolaopinga.bolao.security.JwtAuthenticationEntryPoint;
@@ -57,16 +54,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Bean
-	public CorsFilter corsFilter() {
-	    final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-	    final CorsConfiguration config = new CorsConfiguration();
-	    config.setAllowCredentials(true);
-	    // Don't do this in production, use a proper list  of allowed origins
-	    config.setAllowedOrigins(Collections.singletonList("*"));
-	    config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept"));
-	    config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "OPTIONS", "DELETE", "PATCH"));
-	    source.registerCorsConfiguration("/**", config);
-	    return new CorsFilter(source);
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/**")
+				.allowedOrigins("*")
+				.allowedMethods("GET", "PUT", "POST", "PATCH", "DELETE", "OPTIONS");
+			}
+		};
 	}
 	
 
@@ -76,7 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 									authenticationEntryPoint(unauthorizedHandler).and()
 									.sessionManagement()
 									.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-									.and().cors()
+									.and().cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
 									.and().authorizeRequests()
 									.antMatchers("/api/login/**")
 									.permitAll().anyRequest().authenticated();
